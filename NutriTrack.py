@@ -2,7 +2,7 @@
 
 Author:  Jacob Clark
 Date written: 02/24/25
-Assignment:   Final Project
+Assignment:   Final Projects
 Short Desc:   NutriTrack is a Python Tkinter GUI app that lets users log their daily food and calorie intake, then offers simple, personalized diet recommendations based on their goals.
 
 
