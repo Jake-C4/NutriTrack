@@ -18,10 +18,10 @@ class NutriTrackApp:
     def __init__(self, root):
         self.root = root
         self.root.title("NutriTrack: Basic Nutrition Tracker")
-        self.root.geometry("400x300") # Window size
+        self.root.geometry("500x400") # Window size
 
         # Display image
-        image_path = r"C:\Users\19jac\Desktop\Intro_to_Software_Development\nutritracklogo.jpg" # Path to image
+        image_path = r"C:\Users\19jac\Desktop\Intro_to_Software_Development\NutriTrack\nutritracklogo.jpg" # Path to image
         self.logo_image = Image.open(image_path) # Opens image
         self.logo_image = self.logo_image.resize((200, 100), Image.LANCZOS) #Resize image
         self.logo_photo = ImageTk.PhotoImage(self.logo_image)
@@ -36,13 +36,13 @@ class NutriTrackApp:
 
         # Buttons to navigate to different pages
         self.intake_button = tk.Button(root, text="Enter Daily Intake", command=self.openDailyIntake, width=25)
-        self.intake_button.pack(pady=5) # Spacing between buttons
+        self.intake_button.pack(pady=10) # Spacing between buttons
 
         self.summary_button = tk.Button(root, text="View Calorie Summary", command=self.openCalorieSummary, width=25)
-        self.summary_button.pack(pady=5)
+        self.summary_button.pack(pady=10)
 
         self.recommendations_button = tk.Button(root, text="Basic Diet Recommendations", command=self.openDietRecommendations, width=25)
-        self.recommendations_button.pack(pady=5)
+        self.recommendations_button.pack(pady=10)
 
         self.exit_button = tk.Button(root, text="Exit Application", command=root.quit, width=25)
         self.exit_button.pack(pady=10)
@@ -55,7 +55,7 @@ class NutriTrackApp:
         # Opens a new window for entering daily intake
         intake_window = tk.Toplevel(self.root)
         intake_window.title("Daily Intake") # Window title
-        intake_window.geometry("300x200") # Window size
+        intake_window.geometry("400x300") # Window size
         
         tk.Label(intake_window, text="Food Name: ", font=("Arial", 10)).pack() # Prompt for user input
         food_entry = tk.Entry(intake_window)
@@ -104,7 +104,12 @@ class NutriTrackApp:
             return
 
         # Display Summary
-        total_calories = sum(item["Calories"] for item in self.food_entries)
+        tk.Label(summary_window, text="Food Intake Summary", font=("Arial", 12, "bold")).pack(pady=5)
+        total_calories = sum(entry["Calories"] for entry in self.food_entries)
+
+        for entry in self.food_entries:
+            tk.Label(summary_window, text=f"{entry['Food']} - {entry['Calories']} kcal", font=("Arial", 10)).pack()
+        
         tk.Label(summary_window, text=f"Total Calories: {total_calories}", font=("Arial", 12)).pack(pady=10)
 
     """Opens a window displaying basic diet recommendations."""
@@ -112,10 +117,20 @@ class NutriTrackApp:
         # Opens a new window with basic diet recommendations.
         recommendations_window = tk.Toplevel(self.root)
         recommendations_window.title("Diet Recommendations") # Window title
-        recommendations_window.geometry("300x200") # Window size
+        recommendations_window.geometry("400x300") # Window size
+
+        # Second image display
+        rec_image_path = r"C:\Users\19jac\Desktop\Intro_to_Software_Development\NutriTrack\healthy_foods.jpg" # Path to image
+        self.rec_image = Image.open(rec_image_path) # Opens image
+        self.rec_image = self.rec_image.resize((100, 100), Image.LANCZOS) # Image resize
+        self.rec_photo = ImageTk.PhotoImage(self.rec_image) # Tkinter format
+
+        self.image_label = tk.Label(recommendations_window, image=self.rec_photo)
+        self.image_label.pack() # Display image
+
         
         # Calculate Total Calories from User Input
-        total_calories = sum(item["Calories"] for item in self.food_entries)
+        total_calories = sum(entry["Calories"] for entry in self.food_entries)
 
         # Display Recommendations
         if total_calories == 0:
